@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[33]:
-
-
 #Generate the username and password in this cell
 import requests
 import secrets
@@ -21,10 +15,6 @@ byteUsername = WORDS[random.randint(0,25487)] + WORDS[random.randint(0,25487)]
 
 randomUsername = byteUsername.decode("utf-8")
 randomPassword = password
-
-
-# In[34]:
-
 
 #Browser automation done in this cell
 from selenium import webdriver
@@ -103,10 +93,3 @@ randomUsername = driver.find_element_by_class_name('identity').text
 print("Human verification needed")
 print("New email account username: " + randomUsername)
 print("Password: " + randomPassword)
-
-
-# In[ ]:
-
-
-
-
