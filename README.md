@@ -26,4 +26,4 @@ You can simply run the script and the singup process is automatically done. Howe
 From the research I have done, I could not find any email providers that allowed their APIs to create emails. 
 
 # Improvements?
-I could use passphases instead of random charactes for the password to make things memorable. However, personally I use a password manager, so remembering the password isn't an issue for me. Perhaps a GUI would also be easier than running a script
+I could use passphases instead of random charactes for the password to make things memorable. However, personally I use a password manager, so remembering the password isn't an issue for me. Also, human verification is required, so an extension of this script could be to handle human verification automatically. Perhaps a GUI would also be easier than running a script
