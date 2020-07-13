@@ -30,6 +30,8 @@ import time
 driver = webdriver.Chrome()
 driver.get("https://signup.live.com/?lic=1")
 
+#Method to check if the web elements being used on the page are present
+#Takes a list of element ids (string) from the webpage and checks if it is present
 def waitForBrowser(elements):
     error = False
     
@@ -45,6 +47,7 @@ def waitForBrowser(elements):
         print("Problem with elements: ")
         print(elements)
         
+#Check if the the elements with IDs MemberName and iSignupAction are loaded and present on the page
 waitForBrowser(['MemberName','iSignupAction'])
     
 #Fill in username signup field
@@ -59,6 +62,7 @@ waitForBrowser(['PasswordInput', 'iSignupAction'])
 driver.find_element_by_id('PasswordInput').send_keys(randomPassword)
 driver.find_element_by_id('iSignupAction').click()
 
+#Filling in personal details
 waitForBrowser(['FirstName', 'LastName', 'iSignupAction'])
 
 driver.find_element_by_id('FirstName').send_keys("noone")
@@ -82,6 +86,7 @@ select_object.select_by_index(32)
 
 driver.find_element_by_id('iSignupAction').click()
 
+#Obtaining the email address 
 try:
     element = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, 'identity'))
@@ -91,6 +96,9 @@ except:
     
 randomUsername = driver.find_element_by_class_name('identity').text
 
+#Human verification is needed to finish the signup process
 print("Human verification needed")
+
+#Information about the new email is printed
 print("New email account username: " + randomUsername)
 print("Password: " + randomPassword)
