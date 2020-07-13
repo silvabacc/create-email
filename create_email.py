@@ -32,6 +32,7 @@ driver.get("https://signup.live.com/?lic=1")
 
 #Method to check if the web elements being used on the page are present
 #Takes a list of element ids (string) from the webpage and checks if it is present
+#Run this method before interacting with any elements
 def waitForBrowser(elements):
     error = False
     
