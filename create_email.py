@@ -2,6 +2,7 @@
 import requests
 import secrets
 import string
+import random
 
 #Password sequeence generation - creates 20 character password
 alphabet = string.ascii_letters + string.digits
