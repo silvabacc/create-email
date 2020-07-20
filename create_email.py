@@ -3,19 +3,62 @@ import requests
 import secrets
 import string
 import random
-
-#Password sequeence generation - creates 20 character password
-alphabet = string.ascii_letters + string.digits
-password = ''.join(secrets.choice(alphabet) for i in range(20))
+import re
+from tqdm import tqdm
+import mmap
 
 #Username creation
+#Randomly receieve two words from the english dictionary and combine them
+print("Generating username...")
+
 word_site = "http://svnweb.freebsd.org/csrg/share/dict/words?view=co&content-type=text/plain"
 response = requests.get(word_site)
 WORDS = response.content.splitlines()
 byteUsername = WORDS[random.randint(0,25487)] + WORDS[random.randint(0,25487)]
 
+#Password sequeence generation
+#numberList is an list that contains the lookup numbers for the wordlist file (diceware.wordlist.txt)
+print("Generating password...")
+
+numberList = []
+password = "" 
+
+#Loop that fills in the numberList array for the lookup
+for i in range(5):
+    number = ""
+    for j in range(5):
+        dieRoll = random.randint(1, 5)
+        number = number + str(dieRoll)
+    numberList.append(number)
+    
+#Get the number of lines from the wordlist for the tqdm loading bar
+def get_num_lines(file_path):
+    fp = open(file_path, "r+")
+    buf = mmap.mmap(fp.fileno(), 0)
+    lines = 0
+    while buf.readline():
+        lines += 1
+    return lines
+        
+#Open file with the wordlist containing memorable words
+#Each word is given an number, which matches with one of the numbers in numberList 
+file_path = "diceware.wordlist.txt"
+with open(file_path) as FileObj:
+    for lines in tqdm(FileObj, total=get_num_lines(file_path)):
+        word = re.split(r'\t+', lines.rstrip('\t'))
+        for i in range(len(numberList)):
+            if(word[0] == numberList[i]):
+                password = password + str(word[1]).title()
+            
+
+print("Opening browser")
+
 randomUsername = byteUsername.decode("utf-8")
-randomPassword = password
+randomPassword = re.sub('\s+', '', password)
+
+
+# In[131]:
+
 
 #Browser automation done in this cell
 from selenium import webdriver
@@ -103,3 +146,4 @@ print("Human verification needed")
 #Information about the new email is printed
 print("New email account username: " + randomUsername)
 print("Password: " + randomPassword)
+
