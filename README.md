@@ -10,7 +10,7 @@ I have learned the fundamentals of using Selenium for automation of browser task
 # How did I create usernames and passwords
 To create usernames, I used a online dictionary to receieve two random words and combined them together to create the username. Most of the time usernames in this manner are successful and won't need manually changing
 
-To create passwords, I create 20 random characters that uses the alphabet and numbers and using the ``` secrets ``` module in python, found here: https://docs.python.org/3.6/library/secrets.html
+To create passwords, I used the Diceware Passphrsae method found here: http://world.std.com/~reinhold/diceware.html. The method involves rolling a virtual die 5 times and recording each digit from the rolls. The recorded numbers are then used against a lookup table of words (found in the diceware.wordlist.txt file). Since it is a local file, the lookup is extremely quick
 
 Anything above 15 characters is typically safe password. In my personal opinion, length matters more than complexity. The secrets module is used for generating cryptographically strong random numbers suitable for managing data such as passwords, account authentication, security tokens, and related secrets.
 
@@ -26,4 +26,4 @@ You can simply run the script and the singup process is automatically done. Howe
 From the research I have done, I could not find any email providers that allowed their APIs to create emails. 
 
 # Improvements?
-I could use passphases instead of random charactes for the password to make things memorable. However, personally I use a password manager, so remembering the password isn't an issue for me. Also, human verification is required, so an extension of this script could be to handle human verification automatically. Perhaps a GUI would also be easier than running a script
+The biggest problem with automating the creation of emails is human verification. The script made here stops when human verification is required (which is the last step), so a big improvement to this script is handling human verification. Also having a GUI instead of text-based UI (console) is probably easier to run and read text off.
