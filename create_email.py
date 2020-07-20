@@ -56,10 +56,6 @@ print("Opening browser")
 randomUsername = byteUsername.decode("utf-8")
 randomPassword = re.sub('\s+', '', password)
 
-
-# In[131]:
-
-
 #Browser automation done in this cell
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
