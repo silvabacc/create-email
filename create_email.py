@@ -1,100 +1,83 @@
-#Generate the username and password in this cell
+# Generate the username and password in this cell
+import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
 import requests
-import secrets
-import string
 import random
 import re
-from tqdm import tqdm
 import mmap
 
-#Username creation
-#Randomly receieve two words from the english dictionary and combine them
-print("Generating username...")
+# Username creation
+# Randomly receieve two words from the english dictionary and combine them
 
 word_site = "http://svnweb.freebsd.org/csrg/share/dict/words?view=co&content-type=text/plain"
 response = requests.get(word_site)
 WORDS = response.content.splitlines()
-byteUsername = WORDS[random.randint(0,25487)] + WORDS[random.randint(0,25487)]
+byteUsername = WORDS[random.randint(
+    0, 25487)] + WORDS[random.randint(0, 25487)]
 
-#Password sequeence generation
-#numberList is an list that contains the lookup numbers for the wordlist file (diceware.wordlist.txt)
-print("Generating password...")
+# Password sequeence generation
+# numberList is an list that contains the lookup numbers for the wordlist file (diceware.wordlist.txt)
 
 numberList = []
-password = "" 
+password = ""
 
-#Loop that fills in the numberList array for the lookup
+# Loop that fills in the numberList array for the lookup
 for i in range(5):
     number = ""
     for j in range(5):
         dieRoll = random.randint(1, 5)
         number = number + str(dieRoll)
     numberList.append(number)
-    
-#Get the number of lines from the wordlist for the tqdm loading bar
-def get_num_lines(file_path):
-    fp = open(file_path, "r+")
-    buf = mmap.mmap(fp.fileno(), 0)
-    lines = 0
-    while buf.readline():
-        lines += 1
-    return lines
-        
-#Open file with the wordlist containing memorable words
-#Each word is given an number, which matches with one of the numbers in numberList 
+
+# Open file with the wordlist containing memorable words
+# Each word is given an number, which matches with one of the numbers in numberList
 file_path = "diceware.wordlist.txt"
 with open(file_path) as FileObj:
-    for lines in tqdm(FileObj, total=get_num_lines(file_path)):
+    for lines in FileObj:
         word = re.split(r'\t+', lines.rstrip('\t'))
         for i in range(len(numberList)):
             if(word[0] == numberList[i]):
                 password = password + str(word[1]).title()
-            
-
-print("Opening browser")
 
 randomUsername = byteUsername.decode("utf-8")
 randomPassword = re.sub('\s+', '', password)
 
-#Browser automation done in this cell
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-import time
+# Browser automation done in this cell
 
-#Open browser
+# Open browser
 driver = webdriver.Chrome()
 driver.get("https://signup.live.com/?lic=1")
 
-#Method to check if the web elements being used on the page are present
-#Takes a list of element ids (string) from the webpage and checks if it is present
-#Run this method before interacting with any elements
+# Method to check if the web elements being used on the page are present
+# Takes a list of element ids (string) from the webpage and checks if it is present
+# Run this method before interacting with any elements
+
+
 def waitForBrowser(elements):
-    error = False
-    
     for i in range(len(elements)):
-            try:
-                element = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.ID, elements[i]))
-                )
-            except:
-                error = True
-    
-    if(error == True):
-        print("Problem with elements: ")
-        print(elements)
-        
-#Check if the the elements with IDs MemberName and iSignupAction are loaded and present on the page
-waitForBrowser(['MemberName','iSignupAction'])
-    
-#Fill in username signup field
+        element = WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.ID, elements[i]))
+        )
+
+        # Check if the element is clickable (for the signup buttons)
+        element = WebDriverWait(driver, 15).until(
+            EC.element_to_be_clickable((By.ID, elements[i]))
+        )
+
+
+# Check if the the elements with IDs MemberName and iSignupAction are loaded and present on the page
+waitForBrowser(['MemberName', 'iSignupAction'])
+
+# Fill in username signup field
 username = driver.find_element_by_id('MemberName')
 username.send_keys(randomUsername+"@hotmail.com")
 
-#Continue to the next page
+# Continue to the next page
 driver.find_element_by_id('iSignupAction').click()
 
 waitForBrowser(['PasswordInput', 'iSignupAction'])
@@ -102,7 +85,7 @@ waitForBrowser(['PasswordInput', 'iSignupAction'])
 driver.find_element_by_id('PasswordInput').send_keys(randomPassword)
 driver.find_element_by_id('iSignupAction').click()
 
-#Filling in personal details
+# Filling in personal details
 waitForBrowser(['FirstName', 'LastName', 'iSignupAction'])
 
 driver.find_element_by_id('FirstName').send_keys("noone")
@@ -126,20 +109,19 @@ select_object.select_by_index(32)
 
 driver.find_element_by_id('iSignupAction').click()
 
-#Obtaining the email address 
+# Obtaining the email address
 try:
     element = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, 'identity'))
     )
 except:
     print("Problem with finding domain, most likely to be @outlook.com")
-    
+
 randomUsername = driver.find_element_by_class_name('identity').text
 
-#Human verification is needed to finish the signup process
+# Human verification is needed to finish the signup process
 print("Human verification needed")
 
-#Information about the new email is printed
+# Information about the new email is printed
 print("New email account username: " + randomUsername)
 print("Password: " + randomPassword)
-
