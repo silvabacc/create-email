@@ -17,7 +17,7 @@ Anything above 15 characters is typically safe password. In my personal opinion,
 # What do I need to run this?
 Python 3.6+
 * Selenium - installed by pip here: https://selenium-python.readthedocs.io/installation.html or ``` pip install selenium ```
-* WebDriver for Chrome
+* WebDriver for firefox
 
 # How to use?
 You can simply run the script and the singup process is automatically done. You can do this via the create-email.sh file or manually execute the script in terminal.
