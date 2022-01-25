@@ -11,7 +11,9 @@ Python 3.6+
 * WebDriver for Firefox
 
 # How to use?
-You can simply run the script and the singup process is automatically done. You can do this via the create-email.sh file or manually execute the script in terminal.
+You can simply run the script and the sign process is automatically done. You can do this via the create-email.sh file or manually execute the script in terminal.
+
+`python main.py`
 
 However, due to spammers, most email providers will have human verification and Microsoft Outlook provides the easier verification, reCAPTCHA. At the end, the script will display the username and password in terminal for you to see. However, once you close the teriminal, you will not be able to recover the username and password so make sure you keep note of the account information (or don't, who cares you can make another one)
 
