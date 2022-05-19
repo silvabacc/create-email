@@ -63,14 +63,10 @@ class CreateEmail:
 
     # Tor browser settings
     def setTorBrowserSettings(self):
-        #Update these variables to your local machine's paths. 
-        tor_exe_path = r'C:\...\Tor Browser\Browser\TorBrowser\Tor\tor.exe'
-        profile_default_path = r'C:\...\Tor Browser\Browser\TorBrowser\Data\Browser\profile.default'
-        firefox_options_binary_location = r'C:\...\Mozilla Firefox\firefox.exe' #Default place is Program Files
-
-
-        torexe = os.popen(tor_exe_path) 
-        profile = FirefoxProfile(profile_default_path) 
+        torexe = os.popen(
+            r'C:\Users\baver\Desktop\Tor Browser\Browser\TorBrowser\Tor\tor.exe')
+        profile = FirefoxProfile(
+            r"C:\Users\baver\Desktop\Tor Browser\Browser\TorBrowser\Data\Browser\profile.default")
         profile.set_preference('network.proxy.type', 1)
         profile.set_preference('network.proxy.socks', '127.0.0.1')
         profile.set_preference('network.proxy.socks_port', 9050)
@@ -78,7 +74,7 @@ class CreateEmail:
         profile.update_preferences()
 
         firefox_options = webdriver.FirefoxOptions()
-        firefox_options.binary_location = firefox_options_binary_location
+        firefox_options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
         self.driver = webdriver.Firefox(firefox_profile=profile, options=firefox_options,
                                         executable_path='geckodriver-v0.27.0-win64/geckodriver.exe')
 
