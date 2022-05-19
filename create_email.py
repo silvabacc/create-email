@@ -51,8 +51,9 @@ class CreateEmail:
     # Username creation
     # Randomly receieve two words from the english dictionary and combine them
     def createUserName(self):
-        word_site = "http://svnweb.freebsd.org/csrg/share/dict/words?view=co&content-type=text/plain"
-        response = requests.get(word_site)
+        word_site = "https://svnweb.freebsd.org/csrg/share/dict/words?view=co&content-type=text/plain"
+        headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36' } 
+        response = requests.get(word_site, headers=headers)
         WORDS = response.content.splitlines()
         byteUsername = WORDS[random.randint(
             0, 25487)] + WORDS[random.randint(0, 25487)]
@@ -62,10 +63,14 @@ class CreateEmail:
 
     # Tor browser settings
     def setTorBrowserSettings(self):
-        torexe = os.popen(
-            r'C:\Users\baver\Desktop\Tor Browser\Browser\TorBrowser\Tor\tor.exe')
-        profile = FirefoxProfile(
-            r"C:\Users\baver\Desktop\Tor Browser\Browser\TorBrowser\Data\Browser\profile.default")
+        #Update these variables to your local machine's paths. 
+        tor_exe_path = r'C:\...\Tor Browser\Browser\TorBrowser\Tor\tor.exe'
+        profile_default_path = r'C:\...\Tor Browser\Browser\TorBrowser\Data\Browser\profile.default'
+        firefox_options_binary_location = r'C:\...\Mozilla Firefox\firefox.exe' #Default place is Program Files
+
+
+        torexe = os.popen(tor_exe_path) 
+        profile = FirefoxProfile(profile_default_path) 
         profile.set_preference('network.proxy.type', 1)
         profile.set_preference('network.proxy.socks', '127.0.0.1')
         profile.set_preference('network.proxy.socks_port', 9050)
@@ -73,7 +78,7 @@ class CreateEmail:
         profile.update_preferences()
 
         firefox_options = webdriver.FirefoxOptions()
-        firefox_options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+        firefox_options.binary_location = firefox_options_binary_location
         self.driver = webdriver.Firefox(firefox_profile=profile, options=firefox_options,
                                         executable_path='geckodriver-v0.27.0-win64/geckodriver.exe')
 
