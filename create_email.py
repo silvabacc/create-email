@@ -63,9 +63,9 @@ class CreateEmail:
     # Tor browser settings
     def setTorBrowserSettings(self):
         torexe = os.popen(
-            r'C:\Users\baver\Desktop\Tor Browser\Browser\TorBrowser\Tor\tor.exe')
+            r'C:\Users\...\Desktop\Tor Browser\Browser\TorBrowser\Tor\tor.exe')
         profile = FirefoxProfile(
-            r"C:\Users\baver\Desktop\Tor Browser\Browser\TorBrowser\Data\Browser\profile.default")
+            r"C:\Users\...\Desktop\Tor Browser\Browser\TorBrowser\Data\Browser\profile.default")
         profile.set_preference('network.proxy.type', 1)
         profile.set_preference('network.proxy.socks', '127.0.0.1')
         profile.set_preference('network.proxy.socks_port', 9050)
